@@ -5,22 +5,23 @@
 
 <mapper namespace="com.echoyy.mapper.KnowledgeMapper">
     <insert id="add" parameterType="Knowledge" >
-            insert into knowledge (classify,field,module,problem,answer,askpsn,answerpsn,modifypsn,tmaketime,tmodifytime,dr,score,version) values
-            (#{classify},#{field},#{module},#{problem},#{answer},#{askpsn},#{answerpsn},#{modifypsn},#{tmaketime},#{tmodifytime},#{dr},#{score},#{version})
-        </insert>
+        insert into knowledge (classify,field,module,problem,answer,askpsn,answerpsn,modifypsn,tmaketime,tmodifytime,dr,score,version,attachment) values
+        (#{classify},#{field},#{module},#{problem},#{answer},#{askpsn},#{answerpsn},#{modifypsn},#{tmaketime},#{tmodifytime},#{dr},#{score},#{version},#{attachment})
+    </insert>
 
     <delete id="delete" parameterType="Knowledge" >
-            update knowledge set dr = 1 where id= #{id}
-        </delete>
+        update knowledge set dr = 1 where id= #{id}
+    </delete>
 
     <select id="get" parameterType="_int" resultType="Knowledge">
-            select * from  knowledge  where id= #{id} and dr = 0
-        </select>
+        select * from  knowledge  where id= #{id} and dr = 0
+    </select>
 
     <update id="update" parameterType="Knowledge" >
-            update knowledge set problem=#{problem},answer=#{answer},modifypsn=#{modifypsn},tmodifytime=#{tmodifytime},version=#{version} where id=#{id}
-        </update>
+        update knowledge set classify=#{classify},field=#{field},module=#{module},problem=#{problem},answer=#{answer},modifypsn=#{modifypsn},
+        tmodifytime=#{tmodifytime},version=#{version},attachment=#{attachment} where id=#{id}
+    </update>
     <select id="list" resultType="Knowledge">
-        select * from  knowledge where dr = 0
+        select classify,field,module,problem,answer,modifypsn,tmodifytime,attachment from  knowledge where dr = 0
     </select>
 </mapper>

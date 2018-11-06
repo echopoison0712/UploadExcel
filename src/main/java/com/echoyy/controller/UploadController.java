@@ -92,7 +92,7 @@ public class UploadController {
         if(name==null || ("").equals(name) && size==0) return null;
 
         //批量导入。参数：文件名，文件。
-        boolean b = service.upload(name,file);
+        boolean b = service.getInformation(name,file);
         if(b){
             String Msg ="批量导入EXCEL成功！";
             request.getSession().setAttribute("msg",Msg);

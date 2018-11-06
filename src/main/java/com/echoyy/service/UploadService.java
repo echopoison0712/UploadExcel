@@ -24,4 +24,6 @@ public interface UploadService {
     List<Knowledge> list();
 
     boolean upload(String name, MultipartFile file);
+
+    boolean getInformation(String name, MultipartFile file);
 }

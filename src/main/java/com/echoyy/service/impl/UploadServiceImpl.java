@@ -1,13 +1,20 @@
 package com.echoyy.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.echoyy.mapper.KnowledgeMapper;
+import com.echoyy.pojo.Information;
 import com.echoyy.pojo.Knowledge;
 import com.echoyy.service.UploadService;
 import com.echoyy.util.ReadExcel;
+import com.echoyy.util.ReadExcelInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,6 +47,9 @@ public class UploadServiceImpl implements UploadService {
 
     @Override
     public int update(Knowledge knowledge) {
+        knowledge.setVersion(knowledge.getVersion() + 1);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        knowledge.setTmodifytime(sdf.format(new Date()));
         return knowledgeMapper.update(knowledge);
     }
 
@@ -66,4 +76,37 @@ public class UploadServiceImpl implements UploadService {
         }
         return b;
     }
+
+    @Override
+    public boolean getInformation(String name, MultipartFile file){
+        boolean b = false;
+        //创建处理EXCEL
+        ReadExcelInformation readExcel=new ReadExcelInformation();
+        List<Information> informationList = readExcel.getExcelInfo(name ,file);
+
+        if(informationList != null){
+            b = true;
+        }
+        List<String> updatelist = new ArrayList<>();
+        List<String> delList = new ArrayList<>();
+        for(Information info : informationList){
+/*            StringBuilder content = new StringBuilder();
+            content.append("{\"studentId\":\""+info.getStudentId()+"\",");
+            content.append("\"oldValue\":\""+info.getOldValue()+"\",");
+            content.append("\"newValue\":\""+info.getNewValue()+"\",");
+            content.append("\"person\":\"SYSTEM\"}");
+            updatelist.add(content.toString());*/
+
+            updatelist.add(info.getStudentId());
+            if(info.getDelete()!=null && !info.getDelete().equals("")){
+                delList.add(info.getDelete());
+            }
+        }
+        System.out.println(updatelist);
+        System.out.printf("*****************");
+        System.out.println(delList);
+        return b;
+    }
+
+
 }

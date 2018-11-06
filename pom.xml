@@ -126,7 +126,12 @@
       <artifactId>pagehelper</artifactId>
       <version>${pagehelper.version}</version>
     </dependency>
-
+    <!-- json -->
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>1.2.41</version>
+    </dependency>
     <!--jsqlparser-->
     <dependency>
       <groupId>com.github.jsqlparser</groupId>

@@ -2,7 +2,6 @@ package com.echoyy.util;
 
 import com.echoyy.pojo.Knowledge;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -144,39 +143,43 @@ public class ReadExcel {
      * @return
      */
     private List<Knowledge> readExcelValue(Workbook wb){
-        //得到第一个shell
+        // 得到第一个shell
         Sheet sheet=wb.getSheetAt(0);
 
-        //得到Excel的行数
+        // 得到Excel的行数
         this.totalRows=sheet.getPhysicalNumberOfRows();
 
-        //得到Excel的列数(前提是有行数)
+        // 得到Excel的列数(前提是有行数)
         if(totalRows>=1 && sheet.getRow(0) != null){
             this.totalCells=sheet.getRow(0).getPhysicalNumberOfCells();
         }
 
         List<Knowledge> knowledgeList=new ArrayList<>();
         Knowledge knowledge;
-        //循环Excel行数,从第二行开始。标题不入库
+        // 循环Excel行数,从第二行开始。标题不入库
         for(int r=1;r<totalRows;r++){
             Row row = sheet.getRow(r);
             if (row == null) continue;
             knowledge = new Knowledge();
 
-            //循环Excel的列
+            // 循环Excel的列
             for(int c = 0; c <this.totalCells; c++){
                 String value =  row.getCell(c).getStringCellValue();
                 if (null != value){
                     if(c==0){
-                        knowledge.setClassify(value); //分类
+                        knowledge.setClassify(value); // 分类
                     }else if(c==1){
-                        knowledge.setField(value);  //领域
+                        knowledge.setField(value);  // 领域
                     }else if(c==2){
-                        knowledge.setModule(value); //模块
+                        knowledge.setModule(value); // 模块
                     }else if(c==3){
-                        knowledge.setProblem(value); //问题
+                        knowledge.setProblem(value); // 问题
                     }else if(c==4){
-                        knowledge.setAnswer(value); //答案
+                        knowledge.setAnswer(value); // 答案
+                    }else if(c==5){
+                        knowledge.setAskpsn(value); // 问题提出人
+                    }else if (c==6){
+                        knowledge.setAnswerpsn(value); // 问题解答人
                     }
                 }
             }
@@ -188,15 +191,16 @@ public class ReadExcel {
     }
 
     private void setDefaultValue(Knowledge knowledge){
-        knowledge.setAskpsn("系统管理员");
-        knowledge.setAnswerpsn("系统管理员");
+        if(knowledge.getAskpsn() == null)
+            knowledge.setAskpsn("系统管理员");
+        if(knowledge.getAnswerpsn()==null)
+            knowledge.setAnswerpsn("系统管理员");
         knowledge.setDr(0);
         knowledge.setModifypsn("系统管理员");
         knowledge.setScore(0);
         knowledge.setVersion(1);
-        Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String time = sdf.format(date);
+        String time = sdf.format(new Date());
         knowledge.setTmaketime(time);
         knowledge.setTmodifytime(time);
     }

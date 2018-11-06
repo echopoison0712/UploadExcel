@@ -36,7 +36,8 @@ public class Knowledge {
     int score;
     // 版本
     int version;
-
+    // 附件地址
+    String attachment;
 
     public int getId() {
         return id;
@@ -148,5 +149,13 @@ public class Knowledge {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public String getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(String attachment) {
+        this.attachment = attachment;
     }
 }
