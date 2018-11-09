@@ -205,6 +205,9 @@ public class ReadExcelInformation {
         }
         System.out.println(list.size());
         System.out.println(informationList.size());
+        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+        System.out.println(list);
+        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
         return informationList;
     }
 }

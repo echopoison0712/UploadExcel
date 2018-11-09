@@ -90,14 +90,14 @@ public class UploadServiceImpl implements UploadService {
         List<String> updatelist = new ArrayList<>();
         List<String> delList = new ArrayList<>();
         for(Information info : informationList){
-/*            StringBuilder content = new StringBuilder();
+            StringBuilder content = new StringBuilder();
             content.append("{\"studentId\":\""+info.getStudentId()+"\",");
             content.append("\"oldValue\":\""+info.getOldValue()+"\",");
             content.append("\"newValue\":\""+info.getNewValue()+"\",");
             content.append("\"person\":\"SYSTEM\"}");
-            updatelist.add(content.toString());*/
+            updatelist.add(content.toString());
 
-            updatelist.add(info.getStudentId());
+//            updatelist.add(info.getStudentId());
             if(info.getDelete()!=null && !info.getDelete().equals("")){
                 delList.add(info.getDelete());
             }
