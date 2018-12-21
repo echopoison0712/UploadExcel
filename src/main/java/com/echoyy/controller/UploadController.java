@@ -34,50 +34,6 @@ public class UploadController {
     @Autowired
     UploadService service;
 
-    @RequestMapping("add")
-    public ModelAndView addKnowledge(Knowledge knowledge){
-        service.add(knowledge);
-        ModelAndView mav = new ModelAndView("redirect:/list");
-        return mav;
-    }
-    @RequestMapping("delete")
-    public ModelAndView deleteKnowledge(int id){
-        service.delete(id);
-        ModelAndView mav = new ModelAndView("redirect:/list");
-        return mav;
-    }
-    @RequestMapping("edit")
-    public ModelAndView editKnowledge(Knowledge param){
-        Knowledge knowledge= service.get(param.getId());
-        ModelAndView mav = new ModelAndView("editKnowledge");
-        mav.addObject("knowledge", knowledge);
-        return mav;
-    }
-    @RequestMapping("update")
-    public ModelAndView updateKnowledge(Knowledge knowledge){
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String tmodifytime = sdf.format(date);
-        knowledge.setTmodifytime(tmodifytime);
-        service.update(knowledge);
-        ModelAndView mav = new ModelAndView("redirect:/list");
-        return mav;
-    }
-
-    @RequestMapping("list")
-    public ModelAndView listKnowledge(Page page){
-        ModelAndView mav = new ModelAndView();
-        PageHelper.offsetPage(page.getStart(),5);
-        List<Knowledge> knowledges= service.list();
-        int total = (int) new PageInfo<>(knowledges).getTotal();
-        page.caculateLast(total);
-        // 放入转发参数
-        mav.addObject("knowledges", knowledges);
-        // 放入jsp路径
-        mav.setViewName("listKnowledge");
-        return mav;
-    }
-
     @RequestMapping(value = "import", method = RequestMethod.POST)
     public ModelAndView batchImport(@RequestParam(value="filename") MultipartFile file,
                               HttpServletRequest request, HttpServletResponse response) throws IOException {

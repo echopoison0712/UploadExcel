@@ -31,53 +31,6 @@ public class UploadServiceImpl implements UploadService {
     KnowledgeMapper knowledgeMapper;
 
     @Override
-    public int add(Knowledge knowledge) {
-        return knowledgeMapper.add(knowledge);
-    }
-
-    @Override
-    public void delete(int id) {
-        knowledgeMapper.delete(id);
-    }
-
-    @Override
-    public Knowledge get(int id) {
-        return knowledgeMapper.get(id);
-    }
-
-    @Override
-    public int update(Knowledge knowledge) {
-        knowledge.setVersion(knowledge.getVersion() + 1);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        knowledge.setTmodifytime(sdf.format(new Date()));
-        return knowledgeMapper.update(knowledge);
-    }
-
-    @Override
-    public List<Knowledge> list() {
-        return knowledgeMapper.list();
-    }
-
-    @Override
-    public boolean upload(String name, MultipartFile file) {
-        boolean b = false;
-        //创建处理EXCEL
-        ReadExcel readExcel=new ReadExcel();
-        //解析excel，获取客户信息集合。
-        List<Knowledge> knowledgeList = readExcel.getExcelInfo(name ,file);
-
-        if(knowledgeList != null){
-            b = true;
-        }
-
-        //迭代添加客户信息（注：实际上这里也可以直接将customerList集合作为参数，在Mybatis的相应映射文件中使用foreach标签进行批量添加。）
-        for(Knowledge knowledge:knowledgeList){
-            knowledgeMapper.add(knowledge);
-        }
-        return b;
-    }
-
-    @Override
     public boolean getInformation(String name, MultipartFile file){
         boolean b = false;
         //创建处理EXCEL
@@ -87,8 +40,7 @@ public class UploadServiceImpl implements UploadService {
         if(informationList != null){
             b = true;
         }
-        List<String> updatelist = new ArrayList<>();
-        List<String> delList = new ArrayList<>();
+/*        List<String> updatelist = new ArrayList<>();
         for(Information info : informationList){
             StringBuilder content = new StringBuilder();
             content.append("{\"studentId\":\""+info.getStudentId()+"\",");
@@ -96,15 +48,8 @@ public class UploadServiceImpl implements UploadService {
             content.append("\"newValue\":\""+info.getNewValue()+"\",");
             content.append("\"person\":\"SYSTEM\"}");
             updatelist.add(content.toString());
-
-//            updatelist.add(info.getStudentId());
-            if(info.getDelete()!=null && !info.getDelete().equals("")){
-                delList.add(info.getDelete());
-            }
         }
-        System.out.println(updatelist);
-        System.out.printf("*****************");
-        System.out.println(delList);
+        System.out.println(updatelist);*/
         return b;
     }
 

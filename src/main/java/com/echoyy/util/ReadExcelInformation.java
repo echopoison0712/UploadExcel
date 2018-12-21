@@ -1,6 +1,9 @@
 package com.echoyy.util;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.util.IOUtils;
 import com.echoyy.pojo.Information;
+import com.sun.deploy.net.URLEncoder;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -10,13 +13,14 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import sun.net.www.http.HttpClient;
+import sun.nio.ch.IOUtil;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -208,6 +212,61 @@ public class ReadExcelInformation {
         System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
         System.out.println(list);
         System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+
+        this.doWork(list);
         return informationList;
+    }
+
+
+
+    private void doWork(List<String> list){
+        String remark = "家长您好，我是DaDa英语的课程顾问老师xx，现在刚好赶上年终感恩回馈，今天特别筛选100个历史注册客户，来参加爱心妈妈推广大使的活动。只针对于六单元的课程，之前是74节课时，现在可以获得80节1对1课程，专享狂欢节特惠9890元，而且现在课程没有时间限制。名额有限，您如果决定参加，我这边给您登记上，安排后续入学事宜哈。";
+        JSONObject json = new JSONObject();
+        json.put("remark", remark);
+        json.put("activeStudent",list);
+        BufferedReader in = null;
+        PrintWriter out = null;
+        String result = "";
+        try {
+            URL url = new URL("http://crm.dadaorg.com/admin/api/operator/active/student");
+//            URL url = new URL("http://localhost:8610/admin/api/operator/active/student");
+
+            HttpURLConnection  conn =  (HttpURLConnection)url.openConnection();
+            conn.setRequestProperty("accept", "application/json");
+            conn.setRequestProperty("Authorization","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1X2lkIjoiODg5MDYiLCJ1X21peCI6IiIsInVfbmFtZSI6ImRvdWRvdSIsInVfdGltZSI6MTUzOTY3NzU3Mn0.LPMf8StofgcU47erPfigKFuVo491FlmTWPiZ0Iy_ZyU");
+            conn.setRequestProperty("connection", "Keep-Alive");
+            conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+            conn.setRequestProperty("user-agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36");
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+
+
+            out = new PrintWriter(new OutputStreamWriter(conn.getOutputStream(),"utf-8"));
+            out.print(json);
+            out.flush();
+
+            in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line;
+            while((line = in.readLine())!=null){
+                result+=line;
+            }
+        }catch (Exception e){
+            System.out.println("post error");
+            e.printStackTrace();
+        }finally{
+            try{
+                if(out!=null){
+                    out.close();
+                }
+                if(in!=null){
+                    in.close();
+                }
+            }
+            catch(IOException ex){
+                ex.printStackTrace();
+            }
+        }
+        System.out.println("post推送结果："+result);
     }
 }

@@ -13,17 +13,6 @@ import java.util.List;
  * @Version 1.0
  */
 public interface UploadService {
-    int add(Knowledge knowledge);
-
-    void delete(int id);
-
-    Knowledge get(int id);
-
-    int update(Knowledge knowledge);
-
-    List<Knowledge> list();
-
-    boolean upload(String name, MultipartFile file);
 
     boolean getInformation(String name, MultipartFile file);
 }
