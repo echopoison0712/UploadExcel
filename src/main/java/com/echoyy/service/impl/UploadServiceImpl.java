@@ -1,20 +1,12 @@
 package com.echoyy.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.echoyy.mapper.KnowledgeMapper;
-import com.echoyy.pojo.Information;
-import com.echoyy.pojo.Knowledge;
 import com.echoyy.service.UploadService;
-import com.echoyy.util.ReadExcel;
 import com.echoyy.util.ReadExcelInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

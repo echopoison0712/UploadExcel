@@ -1,9 +1,5 @@
 package com.echoyy.util;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.util.IOUtils;
-import com.echoyy.pojo.Information;
-import com.sun.deploy.net.URLEncoder;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -13,13 +9,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import sun.net.www.http.HttpClient;
-import sun.nio.ch.IOUtil;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.DecimalFormat;
 import java.util.*;
 
